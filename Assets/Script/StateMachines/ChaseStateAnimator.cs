@@ -1,35 +1,28 @@
 using UnityEngine;
 
-public class PatrolStates : StateMachineBehaviour
+public class ChaseStateAnimator : StateMachineBehaviour
 {
-    private PatrolBehaviour _patrolBehaviour;
     private EnemyController _enemyController;
+    private ChaseBehaviour _chaseBehaviour;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         _enemyController = animator.GetComponent<EnemyController>();
-        _patrolBehaviour = animator.GetComponent<PatrolBehaviour>();
-        _patrolBehaviour.StartPatrol();
+        _chaseBehaviour = animator.GetComponent<ChaseBehaviour>();
+        _chaseBehaviour.StartChasing();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (_enemyController.IsPlayerInRange())
-        {
-            _enemyController.StopPatrolling();
-            _enemyController.StartChase();
-        }
-        if (_patrolBehaviour.HasReachedDestination)
-        {
-            _enemyController.StopPatrolling();
-        }
+        _enemyController.UpdateChase(_enemyController.IsPlayerInRange());    
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-    //override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //}
+    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        _chaseBehaviour.StopChasing();
+    }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
     //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

@@ -4,12 +4,9 @@ using UnityEngine.AI;
 
 public class PatrolBehaviour : MonoBehaviour
 {
-    [SerializeField] public Transform player;
     [SerializeField] public float patrolRadius = 15f;
     [SerializeField] public float waypointReachedThreshold = 0.5f;
-
     public bool HasReachedDestination { get; private set; }
-
     bool isPatrolling;
     bool isMoving;
     Vector3 currentTarget;

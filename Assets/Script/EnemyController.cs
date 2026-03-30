@@ -7,6 +7,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] public Transform _player;
     [SerializeField] public float chaseRange;
     private float atkCooldown = 0f;
+    public bool onAtkRange;
     private Animator _animator;
     void Awake()
     {
@@ -23,7 +24,12 @@ public class EnemyController : MonoBehaviour
         {
             _animator.SetTrigger("Attack");
             atkCooldown = atkCooldownDuration;
+            onAtkRange = true;
         }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        onAtkRange = false;
     }
     public void StartPatrolling()
     {
@@ -43,7 +49,6 @@ public class EnemyController : MonoBehaviour
     }
     public bool IsPlayerInRange()
     {
-        Debug.Log(Vector3.Distance(transform.position, _player.transform.position) <= chaseRange);
         return Vector3.Distance(transform.position, _player.transform.position) <= chaseRange;
     }
 }

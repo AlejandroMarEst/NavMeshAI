@@ -9,13 +9,16 @@ public class ChaseStateAnimator : StateMachineBehaviour
     {
         _enemyController = animator.GetComponent<EnemyController>();
         _chaseBehaviour = animator.GetComponent<ChaseBehaviour>();
-        _chaseBehaviour.StartChasing();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        _enemyController.UpdateChase(_enemyController.IsPlayerInRange());    
+        _enemyController.UpdateChase(_enemyController.IsPlayerInRange());
+        if (_enemyController.onAtkRange)
+            _chaseBehaviour.StopChasing();
+        else 
+            _chaseBehaviour.StartChasing();
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

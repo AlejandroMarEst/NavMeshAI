@@ -4,11 +4,14 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
 {
+    [SerializeField] public float atkCooldownDuration = 1f;
     [SerializeField] private TextMeshProUGUI hpUI;
     private InputSystem_Actions inputActions;
     private MoveBehaviour _mB;
     private Vector2 direction;
+    private float atkCooldown = 0f;
     private int HP = 10;
+    private EnemyController currentEnemy;
     void Awake()
     {
         _mB = GetComponent<MoveBehaviour>();
@@ -26,10 +29,30 @@ public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
     }
     void Update()
     {
+        if (atkCooldown > 0f)
+            atkCooldown -= Time.deltaTime;
         _mB.MoveFirstPerson(new Vector3(direction.x, 0, direction.y));
+    }
+    private void OnTriggerStay(Collider trigger)
+    {
+        if (trigger.CompareTag("Enemy"))
+        {
+            currentEnemy = trigger.GetComponent<EnemyController>();
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        currentEnemy = null;
     }
     public void OnAttack(InputAction.CallbackContext context)
     {
+        if (context.performed)
+        {
+            if (atkCooldown <= 0f && currentEnemy != null) {
+                currentEnemy.DamageEnemy();
+                atkCooldown = atkCooldownDuration;
+            }
+        }
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -40,7 +63,7 @@ public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
     {
         --HP;
         hpUI.text = HP.ToString();
-        if (HP >= 0)
+        if (HP <= 0)
         {
             Debug.Log("Dead");
             Application.Quit();

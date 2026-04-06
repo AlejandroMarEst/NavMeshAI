@@ -7,8 +7,10 @@ public class EnemyController : MonoBehaviour
     [SerializeField] public Transform _player;
     [SerializeField] public float chaseRange;
     private float atkCooldown = 0f;
+    private float hp = 3;
     public bool onAtkRange;
     private Animator _animator;
+    private bool alive = true;
     void Awake()
     {
         _animator = GetComponent<Animator>();
@@ -20,7 +22,7 @@ public class EnemyController : MonoBehaviour
     }
     private void OnTriggerStay(Collider trigger)
     {
-        if (atkCooldown <= 0f && trigger.CompareTag("Player"))
+        if (atkCooldown <= 0f && trigger.CompareTag("Player") && alive)
         {
             _animator.SetTrigger("Attack");
             atkCooldown = atkCooldownDuration;
@@ -51,5 +53,14 @@ public class EnemyController : MonoBehaviour
     public bool IsPlayerInRange()
     {
         return Vector3.Distance(transform.position, _player.transform.position) <= chaseRange;
+    }
+    public void DamageEnemy()
+    {
+        --hp;
+        if (hp <= 0 && alive)
+        {
+            _animator.Play("Dying");
+            alive = false;
+        }
     }
 }

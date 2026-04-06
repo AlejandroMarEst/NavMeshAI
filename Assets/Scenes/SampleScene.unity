@@ -1769,6 +1769,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ch14_nonPBR@Idle
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 1e57f58760ab84641b7991081d2ed2dd, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 1e57f58760ab84641b7991081d2ed2dd, type: 3}
       propertyPath: m_Controller
       value: 
@@ -2032,6 +2036,7 @@ GameObject:
   - component: {fileID: 1941366922}
   - component: {fileID: 1941366921}
   - component: {fileID: 1941366920}
+  - component: {fileID: 1941366926}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -2187,6 +2192,27 @@ MonoBehaviour:
   gravity: -9.81
   _camera: {fileID: 317772841}
   speed: 8
+--- !u!65 &1941366926
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1941366918}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3, y: 0.3, z: 3}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2091864891
 GameObject:
   m_ObjectHideFlags: 0

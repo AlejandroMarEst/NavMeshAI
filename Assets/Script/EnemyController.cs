@@ -25,6 +25,7 @@ public class EnemyController : MonoBehaviour
             _animator.SetTrigger("Attack");
             atkCooldown = atkCooldownDuration;
             onAtkRange = true;
+            trigger.GetComponent<Player>().TakeDMG();
         }
     }
     private void OnTriggerExit(Collider other)

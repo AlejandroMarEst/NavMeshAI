@@ -40,5 +40,10 @@ public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
     {
         --HP;
         hpUI.text = HP.ToString();
+        if (HP >= 0)
+        {
+            Debug.Log("Dead");
+            Application.Quit();
+        }
     }
 }
